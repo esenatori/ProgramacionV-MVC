@@ -1,23 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc; 
+using System;
+using System.Diagnostics;
+using System.Drawing;
+using Web.MVCMovies.Data;
 using Web.MVCMovies.Models;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Web.MVCMovies.Controllers
 {
-    public class MoviesController : Controller
+    public class MoviesEFController : Controller
     {
+        MoviesContext _moviesContext;
+
+        public MoviesEFController()
+        { 
+              _moviesContext = new MoviesContext();
+
+        }
         public async Task<IActionResult> Index()
         {
-            List<Movie> movies = new List<Movie>();
-
-            movies.Add(new Movie { Genere = "Drama", Id = 1, Price = 1, Title = "Sueño de Libertad", ReleaseDate = DateTime.Parse("01/01/1994") });
-            movies.Add(new Movie { Genere = "Drama", Id = 1, Price = 1, Title = "Sueño de Libertad", ReleaseDate = DateTime.Parse("01/01/1994") });
-            movies.Add(new Movie { Genere = "Drama", Id = 1, Price = 1, Title = "Sueño de Libertad", ReleaseDate = DateTime.Parse("01/01/1994") });
-            movies.Add(new Movie { Genere = "Drama", Id = 1, Price = 1, Title = "Sueño de Libertad", ReleaseDate = DateTime.Parse("01/01/1994") });
-            movies.Add(new Movie { Genere = "Drama", Id = 1, Price = 1, Title = "Sueño de Libertad", ReleaseDate = DateTime.Parse("01/01/1994") });
-            movies.Add(new Movie { Genere = "Drama", Id = 1, Price = 1, Title = "Sueño de Libertad", ReleaseDate = DateTime.Parse("01/01/1994") });
-
-
-            return View(movies);
+           
+            return View(_moviesContext.Movies.ToList());
         }
 
         // GET: Movies/Details/5

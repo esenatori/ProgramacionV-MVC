@@ -12,8 +12,7 @@ namespace Web.MVCMovies.Models
         [DataType(DataType.Date)]
         public DateTime ReleaseDate { get; set; }
         public string? Genere { get; set; }
-
-        [Column(TypeName = "decimal(18, 2)")]
+         
         public decimal Price { get; set; }
     }
 }
