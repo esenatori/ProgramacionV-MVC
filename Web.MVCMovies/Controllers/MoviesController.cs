@@ -1,23 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Web.MVCMovies.Data;
 using Web.MVCMovies.Models;
 
 namespace Web.MVCMovies.Controllers
 {
     public class MoviesController : Controller
     {
+        MoviesContext _moviesContext = new MoviesContext();
+
+
         public async Task<IActionResult> Index()
         {
-            List<Movie> movies = new List<Movie>();
+            
+            List<Movie>  listademovies = _moviesContext.Movies.ToList();
 
-            movies.Add(new Movie { Genere = "Drama", Id = 1, Price = 1, Title = "Sueño de Libertad", ReleaseDate = DateTime.Parse("01/01/1994") });
-            movies.Add(new Movie { Genere = "Drama", Id = 1, Price = 1, Title = "Sueño de Libertad", ReleaseDate = DateTime.Parse("01/01/1994") });
-            movies.Add(new Movie { Genere = "Drama", Id = 1, Price = 1, Title = "Sueño de Libertad", ReleaseDate = DateTime.Parse("01/01/1994") });
-            movies.Add(new Movie { Genere = "Drama", Id = 1, Price = 1, Title = "Sueño de Libertad", ReleaseDate = DateTime.Parse("01/01/1994") });
-            movies.Add(new Movie { Genere = "Drama", Id = 1, Price = 1, Title = "Sueño de Libertad", ReleaseDate = DateTime.Parse("01/01/1994") });
-            movies.Add(new Movie { Genere = "Drama", Id = 1, Price = 1, Title = "Sueño de Libertad", ReleaseDate = DateTime.Parse("01/01/1994") });
-
-
-            return View(movies);
+            return View(listademovies); 
+             
         }
 
         // GET: Movies/Details/5
@@ -42,10 +40,11 @@ namespace Web.MVCMovies.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Title,ReleaseDate,Genre,Price")] Movie movie)
-        {
-            var NewMovie = new Movie { Genere = movie.Genere, Id = movie.Id, Price = movie.Price, Title = movie.Title, ReleaseDate= movie.ReleaseDate };
+        { 
+            _moviesContext.Movies.Add(movie);
+            _moviesContext.SaveChanges();
 
-            return View(NewMovie);
+            return View(movie);
         }
 
         public async Task<IActionResult> Edit(int? id)
